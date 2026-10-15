@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiLesson_7_ManagerPassword.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#1A1A1A">
+
+    <Grid ColumnDefinitions="*, 1, *" Padding="20" ColumnSpacing="20">
+
+        <VerticalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+            <Label Text="Менеджер паролей" 
+                   FontSize="26" 
+                   FontAttributes="Bold" 
+                   TextColor="White"
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,15" />
+
+            <Entry x:Name="TitleEntry" Placeholder="Назва" TextColor="White" BackgroundColor="#2C2C2C" />
+            <Entry x:Name="WebsiteEntry" Placeholder="Сайт" TextColor="White" BackgroundColor="#2C2C2C" />
+
+            <Picker x:Name="CategoryPicker" 
+                    Title="Оберіть категорію" 
+                    TextColor="White" 
+                    TitleColor="Gray"
+                    BackgroundColor="#2C2C2C">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Робота</x:String>
+                        <x:String>Соцмережі</x:String>
+                        <x:String>Фінанси</x:String>
+                        <x:String>Ігри</x:String>
+                        <x:String>Інше</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="5">
+                <Entry x:Name="PasswordEntry" 
+                       Grid.Column="0"
+                       Placeholder="Пароль" 
+                       IsPassword="True" 
+                       TextColor="White" 
+                       BackgroundColor="#2C2C2C" />
+
+                <Button Grid.Column="1" 
+                        Text="🎲" 
+                        FontSize="18"
+                        BackgroundColor="#2C2C2C" 
+                        TextColor="White"
+                        WidthRequest="50"
+                        Clicked="OnGeneratePasswordClicked" />
+
+                <Button x:Name="MainEyeButton"
+                        Grid.Column="2" 
+                        Text="◡" 
+                        FontSize="18"
+                        BackgroundColor="#2C2C2C" 
+                        TextColor="Gray"
+                        WidthRequest="50"
+                        Clicked="OnToggleMainPasswordClicked" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10" Margin="0,5,0,5">
+                <Button x:Name="BtnSimple" Grid.Column="0" Text="Простий" FontSize="12" Clicked="OnComplexitySelected" CommandParameter="1" BackgroundColor="#2C2C2C" TextColor="White" Padding="0"/>
+                <Button x:Name="BtnMedium" Grid.Column="1" Text="Середній" FontSize="12" Clicked="OnComplexitySelected" CommandParameter="2" BackgroundColor="#4CAF50" TextColor="White" Padding="0"/>
+                <Button x:Name="BtnHard" Grid.Column="2" Text="Складний" FontSize="12" Clicked="OnComplexitySelected" CommandParameter="3" BackgroundColor="#2C2C2C" TextColor="White" Padding="0"/>
+            </Grid>
+
+            <Button Text="Зберегти" 
+                    Clicked="OnSaveClicked" 
+                    BackgroundColor="#4CAF50" 
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,0" />
+        </VerticalStackLayout>
+
+        <BoxView Grid.Column="1" Color="#333333" VerticalOptions="Fill" Margin="0, 10" />
+
+        <Grid Grid.Column="2" RowDefinitions="Auto, *">
+            <Label Grid.Row="0" Text="Збережені паролі" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" TextColor="White" Margin="0,0,0,15" />
+
+            <CollectionView Grid.Row="1" x:Name="PasswordsList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,5,0,10" Padding="15" CornerRadius="8" BackgroundColor="Black" BorderColor="Transparent">
+                            <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto, Auto, Auto">
+
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontAttributes="Bold" FontSize="18" TextColor="White" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Website}" TextColor="Gray" FontSize="14" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding DisplayPassword}" FontAttributes="Bold" TextColor="White" Margin="0,5,0,0" />
+
+                                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#333333" Padding="8,2" CornerRadius="6" VerticalOptions="Start" BorderColor="Transparent" Margin="0,0,10,0">
+                                    <Label Text="{Binding Category}" TextColor="LightGray" FontSize="12" FontAttributes="Bold"/>
+                                </Frame>
+
+                                <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="2"
+                                        Text="{Binding ToggleIcon}" 
+                                        BackgroundColor="Transparent"
+                                        TextColor="#4CAF50"
+                                        FontSize="20"
+                                        VerticalOptions="Center"
+                                        Clicked="OnToggleItemPasswordClicked"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>
